@@ -85,7 +85,6 @@ ul.locations {
 	margin-top: 70px;
 	margin-left: 40px;
 	margin-right: 40px;
-	width: 366px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -94,14 +93,14 @@ ul.locations {
 
 li.locations-list {
 	margin: 4px auto;
-	width: 366px;
+	width: 100%;
 }
 
 button.search-city {
 	display: flex;
 	justify-content: space-between;
 	text-align: left;
-	width: 366px;
+	width: 100%;
 	padding: 22px 12px;
 	background: transparent;
 	border: none;
@@ -325,7 +324,7 @@ div.titleOfDay {
 div.container-infoToday {
 	display: flex;
 	flex-wrap: wrap;
-	width: 775px;
+	justify-content: center;
 }
 
 .info {
