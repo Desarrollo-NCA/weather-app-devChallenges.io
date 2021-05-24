@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/style.css";
 import {
 	MdKeyboardArrowRight,
@@ -16,7 +16,11 @@ const WeatherApp = () => {
 	const [today, setToday] = useState([]);
 	const [weatherAfter, setWeatherAfter] = useState([]);
 	const [varTemp, setVarTemp] = useState(false);
-	
+
+	useEffect(() => {
+		currentLocation()
+	}, [])
+
 	const getCountries = async (e) => {
 		e.preventDefault();
 		setCity(city);
@@ -61,6 +65,37 @@ const WeatherApp = () => {
 			return Math.floor(temp);
 		}
 	};
+	const currentLocation = async () => {
+		var userIp = 0
+		var lattLong = 1
+		if(userIp !== 0){
+			return;
+		}
+		await fetch('https://intense-hollows-87072.herokuapp.com/http://api.hostip.info/')
+		.then(response => {
+         return response.text();
+    }).then(xml => { 
+        return (new window.DOMParser()).parseFromString(xml, "text/xml");
+    }).then(xmlDoc => {
+        const user = xmlDoc.querySelector("ip");
+        userIp = user.innerHTML
+    });
+    	await fetch(`https://intense-hollows-87072.herokuapp.com/http://www.geoplugin.net/json.gp?ip=${userIp}`)
+    	.then(response => response.json())
+    	.then(data => {
+    		const lat = data.geoplugin_latitude
+    		const long = data.geoplugin_longitude 
+    		lattLong = lat+","+long
+    	})
+		await fetch(
+			`https://intense-hollows-87072.herokuapp.com/https://www.metaweather.com/api/location/search/?lattlong=${lattLong}`)
+		 	.then((response) => response.json())
+			.then((data) => {
+				const userCountry = data[0]
+				setPlaces(userCountry)
+			})
+			.catch((e) => console.log(e));	
+	}
 	return (
 		<div className="container">
 			{ready === true ? (
@@ -71,7 +106,7 @@ const WeatherApp = () => {
 						</button>
 						<span className="icon-bg">
 							<MdGpsFixed
-								onClick={() => setReady(false)}
+								onClick={() => currentLocation()}
 								className="gps-icon"
 							/>
 						</span>

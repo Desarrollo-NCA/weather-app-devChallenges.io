@@ -119,7 +119,7 @@ button.search-city:hover {
 }
 
 div.search-back {
-	margin: 35px 46px;
+	margin: 35px 12px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
